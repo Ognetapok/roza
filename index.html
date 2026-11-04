@@ -1373,19 +1373,42 @@ dialog.policy::backdrop{background:rgba(36,28,23,.5)}
     el.header.classList.toggle("is-scrolled", window.scrollY > 8);
   }, { passive: true });
 
+  function loadStaticPrices() {
+    if (!/^https?:$/.test(location.protocol)) return;
+    fetch("data/prices.json", { cache: "no-store" })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (data) {
+        if (!data || !Array.isArray(data.items) || !data.items.length) return;
+        var overrides = {};
+        data.items.forEach(function (it) {
+          if (!it || !it.id) return;
+          var o = {};
+          if (isFinite(it.price) && Number(it.price) > 0) o.price = Number(it.price);
+          if (typeof it.available === "boolean") o.available = it.available;
+          overrides[it.id] = o;
+        });
+        applyCatalog(mergeCatalog(BASE_CATALOG, overrides));
+        var at = data.updatedAt ? new Date(data.updatedAt) : new Date();
+        if (!isNaN(at.getTime())) {
+          setPriceNote("Прайс обновлён " + at.toLocaleDateString("ru-RU", { day: "2-digit", month: "long" }));
+        }
+      })
+      .catch(function () {});
+  }
+
   function probeApi() {
     if (!/^https?:$/.test(location.protocol)) return;
     fetch("api/health", { cache: "no-store" })
       .then(function (r) { return r.ok ? r.json() : null; })
       .then(function (res) {
-        if (!res || !res.ok) return;
+        if (!res || !res.ok) { loadStaticPrices(); return; }
         CONFIG.priceCsvUrl = "api/prices.csv";
         CONFIG.orderUrl = "api/orders";
         var note = document.querySelector(".form-note");
         if (note) note.textContent = "Заказ уйдёт Розе автоматически. Если отправка не пройдёт — скопируйте текст и пришлите в MAX.";
         loadPrices();
       })
-      .catch(function () {});
+      .catch(function () { loadStaticPrices(); });
   }
   var savedPrices = cachedPrices();
   applyCatalog(savedPrices ? mergeCatalog(BASE_CATALOG, savedPrices) : BASE_CATALOG);

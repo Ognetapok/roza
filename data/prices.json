@@ -1,0 +1,191 @@
+{
+    "updatedAt":  "2026-11-04T12:32:55.7304882+03:00",
+    "items":  [
+                  {
+                      "id":  "p1",
+                      "name":  "Пельмени говядина / курица",
+                      "price":  650,
+                      "available":  true
+                  },
+                  {
+                      "id":  "p2",
+                      "name":  "Хинкали говядина / курица / зелень",
+                      "price":  750,
+                      "available":  true
+                  },
+                  {
+                      "id":  "p3",
+                      "name":  "Манты классические",
+                      "price":  800,
+                      "available":  true
+                  },
+                  {
+                      "id":  "p4",
+                      "name":  "Вареники с адыгейским сыром",
+                      "price":  550,
+                      "available":  true
+                  },
+                  {
+                      "id":  "p5",
+                      "name":  "Вареники «Мэтаз»",
+                      "price":  600,
+                      "available":  true
+                  },
+                  {
+                      "id":  "p6",
+                      "name":  "Вареники с картошкой и зажарочкой",
+                      "price":  400,
+                      "available":  true
+                  },
+                  {
+                      "id":  "p7",
+                      "name":  "Вареники с вишней",
+                      "price":  550,
+                      "available":  true
+                  },
+                  {
+                      "id":  "p8",
+                      "name":  "Вареники с клубникой",
+                      "price":  550,
+                      "available":  true
+                  },
+                  {
+                      "id":  "p9",
+                      "name":  "Котлетки из филе курицы",
+                      "price":  800,
+                      "available":  true
+                  },
+                  {
+                      "id":  "p10",
+                      "name":  "Котлетки куриные детские",
+                      "price":  900,
+                      "available":  true
+                  },
+                  {
+                      "id":  "p11",
+                      "name":  "Котлетки из барашка",
+                      "price":  900,
+                      "available":  true
+                  },
+                  {
+                      "id":  "p12",
+                      "name":  "Котлеты говядина / курица",
+                      "price":  900,
+                      "available":  true
+                  },
+                  {
+                      "id":  "p13",
+                      "name":  "Котлеты с луком, шампиньонами и моцареллой",
+                      "price":  900,
+                      "available":  true
+                  },
+                  {
+                      "id":  "p14",
+                      "name":  "«Шницель» из филе курицы",
+                      "price":  500,
+                      "available":  true
+                  },
+                  {
+                      "id":  "p15",
+                      "name":  "Тефтельки курица / говядина",
+                      "price":  750,
+                      "available":  true
+                  },
+                  {
+                      "id":  "p16",
+                      "name":  "Фрикадельки курица / говядина",
+                      "price":  800,
+                      "available":  true
+                  },
+                  {
+                      "id":  "p17",
+                      "name":  "Голубцы филе курицы / говядина",
+                      "price":  750,
+                      "available":  true
+                  },
+                  {
+                      "id":  "p18",
+                      "name":  "Перец фаршированный",
+                      "price":  750,
+                      "available":  true
+                  },
+                  {
+                      "id":  "p19",
+                      "name":  "Долма говядина / курица с зеленью",
+                      "price":  2200,
+                      "available":  true
+                  },
+                  {
+                      "id":  "p20",
+                      "name":  "Халюжи с адыгейским сыром",
+                      "price":  40,
+                      "available":  true
+                  },
+                  {
+                      "id":  "p21",
+                      "name":  "Халюжи с кинзой и зелёным луком",
+                      "price":  45,
+                      "available":  true
+                  },
+                  {
+                      "id":  "p22",
+                      "name":  "Чебуреки говядина / курица",
+                      "price":  70,
+                      "available":  true
+                  },
+                  {
+                      "id":  "p23",
+                      "name":  "Галета творожная с ягодами",
+                      "price":  500,
+                      "available":  true
+                  },
+                  {
+                      "id":  "p24",
+                      "name":  "Сырники-зайки",
+                      "price":  800,
+                      "available":  true
+                  },
+                  {
+                      "id":  "p25",
+                      "name":  "Стрипсы из филе курицы «Панко»",
+                      "price":  950,
+                      "available":  true
+                  },
+                  {
+                      "id":  "p26",
+                      "name":  "Наггетсы куриные",
+                      "price":  950,
+                      "available":  true
+                  },
+                  {
+                      "id":  "p27",
+                      "name":  "Корзиночки для духовки без начинки",
+                      "price":  600,
+                      "available":  true
+                  },
+                  {
+                      "id":  "p28",
+                      "name":  "Корзиночки с курицей и ананасом",
+                      "price":  1000,
+                      "available":  true
+                  },
+                  {
+                      "id":  "p29",
+                      "name":  "Пирожочки с картошкой и зажарочкой",
+                      "price":  650,
+                      "available":  true
+                  },
+                  {
+                      "id":  "p30",
+                      "name":  "Пирожочки с адыгейским сыром",
+                      "price":  800,
+                      "available":  true
+                  },
+                  {
+                      "id":  "p31",
+                      "name":  "Заварное тесто",
+                      "price":  200,
+                      "available":  true
+                  }
+              ]
+}

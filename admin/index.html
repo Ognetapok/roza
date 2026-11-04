@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Цены · Розина кухня</title>
+<meta name="theme-color" content="#241C17">
+<link rel="icon" href="../icons/icon-192.png">
+<style>
+  :root{--paper:#FBF6EE;--surface:#FFFDF8;--ink:#241C17;--muted:#7C6B5C;--clay:#B04A2F;--sage:#5E6B45;--line:#E6DAC8;--serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;--sans:"Segoe UI",system-ui,-apple-system,Arial,sans-serif}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.5 var(--sans);padding-bottom:env(safe-area-inset-bottom)}
+  h1,h2{font-family:var(--serif);font-weight:600;margin:0}
+  header{position:sticky;top:0;z-index:5;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;background:rgba(36,28,23,.97);color:#F3E9DB}
+  header h1{font-size:18px;color:#FDF7EC}
+  header a{color:#C9B9A6;font-size:13px;text-decoration:none}
+  header a:hover{color:#fff}
+  main{max-width:820px;margin:0 auto;padding:14px 16px 60px}
+  .panel{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:16px}
+  .panel h2{font-size:17px;margin-bottom:8px}
+  .muted{color:var(--muted);font-size:13px;margin:0 0 8px}
+  .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  input[type=password]{flex:1;min-width:180px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:#fff;font:inherit}
+  button{font:inherit;font-weight:600;border:1px solid transparent;border-radius:999px;padding:11px 18px;cursor:pointer;background:var(--clay);color:#fff}
+  button.ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+  button:disabled{opacity:.5;cursor:default}
+  .status{font-size:13px;color:var(--muted)}
+  .status.ok{color:var(--sage);font-weight:600}
+  .status.bad{color:#A3321C;font-weight:600}
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  th,td{padding:9px 6px;border-bottom:1px solid var(--line);text-align:left;vertical-align:middle}
+  th{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+  td:nth-child(2){width:112px}
+  td:nth-child(3){width:78px;text-align:center}
+  tr.off td:first-child{color:var(--muted)}
+  input[type=number]{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:#fff;font:inherit;text-align:right;font-variant-numeric:tabular-nums}
+  input[type=checkbox]{width:22px;height:22px;accent-color:var(--clay)}
+  .savebar{position:sticky;bottom:0;display:flex;gap:10px;align-items:center;justify-content:space-between;padding:12px 0 0;background:linear-gradient(180deg,rgba(251,246,238,0),var(--paper) 40%)}
+  .savebar button{flex:1}
+  details{font-size:13px;color:var(--muted)}
+  summary{cursor:pointer;color:var(--ink);font-weight:600}
+  details ol{margin:8px 0 0;padding-left:18px}
+  code{background:rgba(36,28,23,.06);padding:1px 5px;border-radius:5px;font-size:12.5px}
+  @media(max-width:520px){td:nth-child(3){width:62px}th:nth-child(1){font-size:10px}}
+</style>
+</head>
+<body>
+<header>
+  <h1>Цены · Розина кухня</h1>
+  <a href="../">Открыть сайт →</a>
+</header>
+
+<main>
+  <section class="panel">
+    <h2>Ключ доступа</h2>
+    <p class="muted">Нужен только для сохранения: это токен GitHub с правом записи в репозиторий. Хранится в этом браузере, на сайт не уходит.</p>
+    <div class="row">
+      <input id="token" type="password" placeholder="github_pat_…" autocomplete="off" aria-label="Токен GitHub">
+      <button id="login" type="button">Сохранить ключ</button>
+      <button id="forget" class="ghost" type="button">Забыть</button>
+    </div>
+    <p class="status" id="tokenStatus"></p>
+    <details style="margin-top:8px">
+      <summary>Где взять токен</summary>
+      <ol>
+        <li>github.com → Settings → Developer settings → Personal access tokens → <b>Fine-grained tokens</b> → Generate new token.</li>
+        <li>Repository access: <b>Only select repositories</b> → <code>roza</code>.</li>
+        <li>Permissions → Repository permissions → <b>Contents: Read and write</b>.</li>
+        <li>Скопировать токен и вставить сюда.</li>
+      </ol>
+    </details>
+  </section>
+
+  <section class="panel">
+    <div class="row" style="justify-content:space-between;margin-bottom:6px">
+      <h2>Цены и наличие</h2>
+      <button id="reload" class="ghost" type="button">Обновить</button>
+    </div>
+    <p class="muted">Снимите галочку — позиция станет «нет в наличии» и её нельзя будет заказать. Названия меняются в файле прайса.</p>
+    <p class="status" id="status">Загружаю…</p>
+    <table>
+      <thead><tr><th>Позиция</th><th>Цена, ₽</th><th>В наличии</th></tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+    <div class="savebar">
+      <button id="save" type="button">Сохранить и опубликовать</button>
+    </div>
+    <p class="status" id="saveStatus"></p>
+  </section>
+</main>
+
+<script>
+(function () {
+  "use strict";
+  var REPO = "Ognetapok/roza";
+  var PATH = "data/prices.json";
+  var BRANCH = "main";
+  var API = "https://api.github.com/repos/" + REPO + "/contents/" + PATH;
+  var TOKEN_KEY = "roza-gh-token";
+
+  var token = "";
+  var sha = "";
+  var items = [];
+
+  var el = {
+    token: document.getElementById("token"),
+    login: document.getElementById("login"),
+    forget: document.getElementById("forget"),
+    tokenStatus: document.getElementById("tokenStatus"),
+    rows: document.getElementById("rows"),
+    save: document.getElementById("save"),
+    reload: document.getElementById("reload"),
+    status: document.getElementById("status"),
+    saveStatus: document.getElementById("saveStatus")
+  };
+
+  function money(n) { return new Intl.NumberFormat("ru-RU").format(n) + " ₽"; }
+  function setStatus(node, text, kind) {
+    node.textContent = text || "";
+    node.className = "status" + (kind ? " " + kind : "");
+  }
+  function b64encode(str) { return btoa(unescape(encodeURIComponent(str))); }
+  function b64decode(b64) { return decodeURIComponent(escape(atob(String(b64).replace(/\s/g, "")))); }
+
+  function gh(url, options) {
+    var opts = options || {};
+    var headers = { "Accept": "application/vnd.github+json" };
+    if (token) headers.Authorization = "Bearer " + token;
+    opts.headers = Object.assign(headers, opts.headers || {});
+    return fetch(url, opts).then(function (r) {
+      return r.json().catch(function () { return {}; }).then(function (data) {
+        if (!r.ok) {
+          var msg = data.message || ("HTTP " + r.status);
+          if (r.status === 401) msg = "токен не подошёл";
+          if (r.status === 404) msg = "файл прайса не найден в репозитории";
+          if (r.status === 409) msg = "прайс уже изменили в другом месте — нажмите «Обновить»";
+          throw new Error(msg);
+        }
+        return data;
+      });
+    });
+  }
+
+  function render() {
+    el.rows.innerHTML = items.map(function (it) {
+      return '<tr data-id="' + it.id + '"' + (it.available ? "" : ' class="off"') + ">" +
+        "<td>" + it.name + "</td>" +
+        '<td><input type="number" min="0" step="1" inputmode="numeric" value="' + it.price + '" aria-label="Цена: ' + it.name + '"></td>' +
+        '<td><input type="checkbox"' + (it.available ? " checked" : "") + ' aria-label="В наличии: ' + it.name + '"></td>' +
+        "</tr>";
+    }).join("");
+  }
+
+  function load() {
+    setStatus(el.status, "Загружаю прайс…");
+    return gh(API + "?ref=" + BRANCH + "&t=" + Date.now()).then(function (data) {
+      sha = data.sha;
+      var parsed = JSON.parse(b64decode(data.content));
+      items = (parsed.items || []).map(function (it) {
+        return { id: it.id, name: it.name || it.id, price: Number(it.price) || 0, available: it.available !== false };
+      });
+      render();
+      var when = parsed.updatedAt ? new Date(parsed.updatedAt) : null;
+      setStatus(el.status, items.length + " позиций" + (when && !isNaN(when) ? " · обновлён " + when.toLocaleString("ru-RU", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" }) : ""), "ok");
+    }).catch(function (err) {
+      setStatus(el.status, err.message, "bad");
+    });
+  }
+
+  function collect() {
+    return Array.prototype.map.call(el.rows.querySelectorAll("tr"), function (tr) {
+      var id = tr.dataset.id;
+      var base = items.filter(function (it) { return it.id === id; })[0] || { id: id, name: id };
+      return {
+        id: id,
+        name: base.name,
+        price: Number(tr.querySelector("input[type=number]").value) || 0,
+        available: tr.querySelector("input[type=checkbox]").checked
+      };
+    });
+  }
+
+  el.login.addEventListener("click", function () {
+    token = el.token.value.trim();
+    if (!token) { setStatus(el.tokenStatus, "Вставьте токен", "bad"); return; }
+    try { localStorage.setItem(TOKEN_KEY, token); } catch (e) {}
+    setStatus(el.tokenStatus, "Ключ сохранён в этом браузере", "ok");
+    load();
+  });
+
+  el.forget.addEventListener("click", function () {
+    token = "";
+    el.token.value = "";
+    try { localStorage.removeItem(TOKEN_KEY); } catch (e) {}
+    setStatus(el.tokenStatus, "Ключ удалён", "ok");
+  });
+
+  el.reload.addEventListener("click", load);
+
+  el.save.addEventListener("click", function () {
+    if (!token) { setStatus(el.saveStatus, "Сначала вставьте ключ доступа", "bad"); return; }
+    var payload = { updatedAt: new Date().toISOString(), items: collect() };
+    el.save.disabled = true;
+    setStatus(el.saveStatus, "Публикую…");
+    fetch(API + "?ref=" + BRANCH + "&t=" + Date.now(), {
+      headers: token ? { "Accept": "application/vnd.github+json", Authorization: "Bearer " + token } : { "Accept": "application/vnd.github+json" }
+    })
+      .then(function (r) { return r.json(); })
+      .then(function (fresh) { if (fresh && fresh.sha) sha = fresh.sha; })
+      .catch(function () {})
+      .then(function () {
+        return gh(API, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            message: "Прайс: обновление цен",
+            content: b64encode(JSON.stringify(payload, null, 2)),
+            sha: sha,
+            branch: BRANCH
+          })
+        });
+      })
+      .then(function (res) {
+        if (res && res.content && res.content.sha) sha = res.content.sha;
+        items = payload.items;
+        render();
+        setStatus(el.saveStatus, "Готово. Сайт обновится за минуту — обновите страницу.", "ok");
+      })
+      .catch(function (err) {
+        setStatus(el.saveStatus, err.message, "bad");
+      })
+      .then(function () { el.save.disabled = false; });
+  });
+
+  try {
+    var saved = localStorage.getItem(TOKEN_KEY);
+    if (saved) { token = saved; el.token.value = saved; setStatus(el.tokenStatus, "Ключ сохранён в этом браузере", "ok"); }
+  } catch (e) {}
+
+  load();
+})();
+</script>
+</body>
+</html>
