@@ -1378,6 +1378,7 @@ dialog.policy::backdrop{background:rgba(36,28,23,.5)}
     fetch("data/prices.json", { cache: "no-store" })
       .then(function (r) { return r.ok ? r.json() : null; })
       .then(function (data) {
+        if (CONFIG.priceCsvUrl) return;
         if (!data || !Array.isArray(data.items) || !data.items.length) return;
         var overrides = {};
         data.items.forEach(function (it) {
@@ -1401,18 +1402,19 @@ dialog.policy::backdrop{background:rgba(36,28,23,.5)}
     fetch("api/health", { cache: "no-store" })
       .then(function (r) { return r.ok ? r.json() : null; })
       .then(function (res) {
-        if (!res || !res.ok) { loadStaticPrices(); return; }
+        if (!res || !res.ok) return;
         CONFIG.priceCsvUrl = "api/prices.csv";
         CONFIG.orderUrl = "api/orders";
         var note = document.querySelector(".form-note");
         if (note) note.textContent = "Заказ уйдёт Розе автоматически. Если отправка не пройдёт — скопируйте текст и пришлите в MAX.";
         loadPrices();
       })
-      .catch(function () { loadStaticPrices(); });
+      .catch(function () {});
   }
   var savedPrices = cachedPrices();
   applyCatalog(savedPrices ? mergeCatalog(BASE_CATALOG, savedPrices) : BASE_CATALOG);
   loadPrices();
+  loadStaticPrices();
   probeApi();
   if (CONFIG.orderUrl) {
     var formNote = document.querySelector(".form-note");
